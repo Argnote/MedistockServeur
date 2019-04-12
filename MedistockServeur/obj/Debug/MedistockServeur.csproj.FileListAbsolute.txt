@@ -1,0 +1,7 @@
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe.config
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.pdb
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csprojAssemblyReference.cache
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CoreCompileInputs.cache
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
+D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
