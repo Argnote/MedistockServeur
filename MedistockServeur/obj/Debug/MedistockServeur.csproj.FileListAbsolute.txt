@@ -5,3 +5,14 @@ D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\Medistock
 D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CoreCompileInputs.cache
 D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
 D:\projet\MedistockServeur\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe.config
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\MedistockServeur.pdb
+D:\projet\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csprojAssemblyReference.cache
+D:\projet\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CoreCompileInputs.cache
+D:\projet\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
+D:\projet\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\MySql.Data.dll
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\Google.Protobuf.dll
+D:\projet\MedistockServeur\MedistockServeur\bin\Debug\MySql.Data.xml
+D:\projet\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CopyComplete

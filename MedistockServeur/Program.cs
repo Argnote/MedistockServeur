@@ -4,19 +4,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace std
+namespace MedistockServeur
 {
     public class TcpServer
     {
         // on crée le service d'écoute
         Int32 port;
         TcpListener ecoute = null;
-
+        DAO dao;
         public TcpServer(Int32 p_port)
         {
             port = p_port;
             try
-            {
+            {               
                 // on crée le service - il écoutera sur toutes les interfaces réseau de la machine
                 ecoute = new TcpListener(IPAddress.Any, port);
                 // on le lance
@@ -47,18 +47,17 @@ namespace std
 
         // -------------------------------------------------------
         // assure le service à un client
-        public static void Service(Object infos)
+        public void Service(Object infos)
         {
-
-            String demande = null;
-            String reponse = null;
+            dao = new DAO();
+            string demande = null;
+            string reponse = null;
+            int etape = 1;
             // on récupère le client qu'il faut servir
             TcpClient client = infos as TcpClient;
-
             // exploitation liaison TcpClient
             try
             {
-                String temp = null;
                 Console.WriteLine("Client connected");
                 using (NetworkStream networkStream = client.GetStream())
                 {
@@ -66,33 +65,28 @@ namespace std
                     {
                         using (StreamWriter writer = new StreamWriter(networkStream))
                         {
+                            demande = reader.ReadLine();
+                            etape = (int)Char.GetNumericValue(demande[0]);
+                            demande = demande.Substring(1);
                             // flux de sortie non bufferisé
                             writer.AutoFlush = true;
                             // boucle lecture demande/écriture réponse
-                            bool fini = false;
-                            while (demande != "exit")
+                            //reponse = dao.getmessage();
+                            //writer.WriteLine(reponse);
+                            while (true)
                             {
-                                demande = reader.ReadLine();
-
-                                if (demande.ToLower().Equals("bonjour"))
-                                {
-                                    reponse = "Bonjour, t'es qui ?";
-                                    temp = demande;
+                                if(etape == 1)
+                                {   
+                                    Console.WriteLine(demande);
+                                    reponse = dao.connection(demande);
+                                    Console.WriteLine(reponse);
                                     writer.WriteLine(reponse);
+                                    
                                 }
-                                else if (demande.ToLower().Equals("ça va et toi ?") && temp.ToLower().Equals("bonjour"))
+                                else if(etape == 2)
                                 {
-                                    reponse = "ça va";
-                                    temp = demande;
-                                    writer.WriteLine(reponse);
+                                    dao.setRetour(demande);
                                 }
-                                else
-                                {
-                                    reponse = "Session non ouverte";
-                                    temp = demande;
-                                    writer.WriteLine(reponse);
-                                }
-
                             }
                         }
                     }
