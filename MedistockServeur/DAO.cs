@@ -15,8 +15,9 @@ namespace MedistockServeur
     class DAO
     {
         string message;
-        string retour;
         private List<string> profil;
+        private List<string> medicament;
+        private List<string> medicamentAction;
         private MySqlConnection MyConnection;
         private string connexion_string = "SERVER=127.0.0.1; DATABASE=medistock; UID=root; PASSWORD=";       // Création d'un string permettant d'ouvrir la dB avec des parametres prédéfinis 
 
@@ -26,8 +27,7 @@ namespace MedistockServeur
             {
                 MyConnection = new MySqlConnection(connexion_string);
                 MyConnection.Open();
-                //Console.WriteLine("connection établie\n");
-            }
+            }            
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -38,45 +38,128 @@ namespace MedistockServeur
         {
             int indexY = 0;
             profil = new List<string>();
-            MySqlCommand request = new MySqlCommand("Select Nom,Prenom,Fonction,Permission,Identifiant,MotDePasse from personnel,permission WHERE personnel.IdPermission = permission.IdPermission", MyConnection);
+            MySqlCommand request = new MySqlCommand("Select IdPersonnel,Nom,Prenom,Fonction,Permission,Identifiant,MotDePasse from personnel,permission WHERE personnel.IdPermission = permission.IdPermission", MyConnection);
             MySqlDataReader reader = request.ExecuteReader();
-            string list = null;
+            string enregistrement = null;
             while (reader.Read()) // Pour chaque enregistrement de l'objet ciblé 
             {
                 for (indexY = 0; indexY < reader.FieldCount; indexY++) // Pour chaque attribut de l'enregistrement ciblé
                 {
-                    list = list + reader[indexY].ToString() + ';';
+                    enregistrement = enregistrement + reader[indexY].ToString() + ';';
                     //profil.Add(reader[indexY].ToString() + ","); // Stockage dans la liste "dataList" du tout le contenu de la base de données en String
                 }
-                list = list.Substring(0, list.Length - 1);
-                profil.Add(list); // Ajout des séparations entre chaque enregistrement
-                list = null;
+                enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
+                profil.Add(enregistrement); // Ajout des séparations entre chaque enregistrement
+                enregistrement = null;
                 indexY = 0; // Remise à zéro de l'index 
             }
             reader.Close(); // Fermeture du DataReader
-            MyConnection.Close(); // Fermeture de la connexion
+            
             //profil.Add("Croix;Pierre;medecin;2;test;azerty");
             //profil.Add("Dubois;Victor;magasinier;5;admin;azerty");
             foreach (string element in profil)
             {
                 string[] split = element.Split(';');
-                string identification = split[4] + ';' + split[5];
+                string identification = split[5] + ';' + split[6];
                 if(p_identifiant == identification)
                 {
-                    message = element;
+                    message = element + '*' + listeMedicament();
+                    MyConnection.Close(); // Fermeture de la connexion
                     return message;
                 }
             }
             message = "faux";
             return message;
         }
+        public string listeMedicament()
+        {
+            string liste = null;
+
+            int indexY = 0;
+            medicament = new List<string>();
+            medicamentAction = new List<string>();
+            MySqlCommand request = new MySqlCommand("Select medicament.IdMedicament,medicament.Nom,medicament.Type,medicament.TypeMesure,medicament.PrincipeActif,medicament.Stock,medicament.SeuilCritique,armoire.Abscisse,armoire.Ordonne,salle.nom from medicament,armoire,salle WHERE medicament.IdArmoire = armoire.IdArmoire AND armoire.IdSalle = salle.IdSalle", MyConnection);
+            MySqlDataReader reader = request.ExecuteReader();
+            string enregistrement = null;
+            int IdMedicament = 0;
+            while (reader.Read()) // Pour chaque enregistrement de l'objet ciblé 
+            {
+                for (indexY = 0; indexY < reader.FieldCount; indexY++) // Pour chaque attribut de l'enregistrement ciblé
+                {
+                    enregistrement = enregistrement + reader[indexY].ToString() + ',';
+                    //profil.Add(reader[indexY].ToString() + ","); // Stockage dans la liste "dataList" du tout le contenu de la base de données en String
+                }
+                //list = list.Substring(0, list.Length - 1);
+                medicament.Add(enregistrement); // Ajout des séparations entre chaque enregistrement
+                enregistrement = null;
+                indexY = 0; // Remise à zéro de l'index 
+            }
+            reader.Close(); // Fermeture du DataReader
+
+            foreach (string medicament in medicament)
+            {
+                IdMedicament++;
+                MySqlCommand requestAction = new MySqlCommand("Select TypeAction,Quantité FROM effectueraction Where IdMedicament = " + IdMedicament + "", MyConnection);
+                MySqlDataReader readerAction = requestAction.ExecuteReader();
+                while (readerAction.Read()) // Pour chaque enregistrement de l'objet ciblé 
+                {
+                    for (indexY = 0; indexY < readerAction.FieldCount; indexY++) // Pour chaque attribut de l'enregistrement ciblé
+                    {
+                        enregistrement = enregistrement + readerAction[indexY].ToString() + 'ù';
+                        //profil.Add(reader[indexY].ToString() + ","); // Stockage dans la liste "dataList" du tout le contenu de la base de données en String
+                    }
+                    enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
+                    enregistrement = enregistrement + ",";
+                    indexY = 0;
+                }
+                
+                readerAction.Close();
+                enregistrement = medicament + enregistrement;
+                enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
+                medicamentAction.Add(enregistrement);
+                enregistrement = null;
+
+                //profil[IdMedicament - 1] = profil[IdMedicament - 1].Substring(0, list.Length - 1);
+            }
+
+            foreach(string medicament in medicamentAction)
+            {
+                liste = liste + medicament + '*';
+            }
+            liste = liste.Substring(0, liste.Length - 1);
+            return liste;
+        }
         public string getmessage()
         {
             return message;
         }
-        public void setRetour(string p_retour)
+        public void miseAJour(string demande)
         {
-            retour = p_retour;
+            try
+            {
+                string[] splitmessage = demande.Split(',');
+                MyConnection = new MySqlConnection(connexion_string);
+                MyConnection.Open();
+                MySqlCommand cmd = MyConnection.CreateCommand();
+                MySqlCommand request = new MySqlCommand("Select*FROM effectueraction", MyConnection);
+                MySqlDataReader reader = request.ExecuteReader();
+                int id = 0;
+                while(reader.Read())
+                {
+                    id++;
+                }
+                id++;
+                reader.Close();
+                string sql = "Insert into effectueraction values ("+ id + "," + splitmessage[0] + "," + splitmessage[1] + ",'"+ splitmessage[2] + "','" + splitmessage[3] + "'," + splitmessage[4] + ")";
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                MyConnection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+            }
         }
     }
 }

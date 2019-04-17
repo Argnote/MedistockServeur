@@ -16,7 +16,7 @@ namespace MedistockServeur
         {
             port = p_port;
             try
-            {               
+            {
                 // on crée le service - il écoutera sur toutes les interfaces réseau de la machine
                 ecoute = new TcpListener(IPAddress.Any, port);
                 // on le lance
@@ -52,7 +52,7 @@ namespace MedistockServeur
             dao = new DAO();
             string demande = null;
             string reponse = null;
-            int etape = 1;
+            int etape = 0;
             // on récupère le client qu'il faut servir
             TcpClient client = infos as TcpClient;
             // exploitation liaison TcpClient
@@ -81,11 +81,14 @@ namespace MedistockServeur
                                     reponse = dao.connection(demande);
                                     Console.WriteLine(reponse);
                                     writer.WriteLine(reponse);
-                                    
+                                    etape = 0;
                                 }
                                 else if(etape == 2)
                                 {
-                                    dao.setRetour(demande);
+                                    Console.WriteLine(demande);
+                                    dao.miseAJour(demande);
+                                    writer.WriteLine("ok");
+                                    etape = 0;
                                 }
                             }
                         }
