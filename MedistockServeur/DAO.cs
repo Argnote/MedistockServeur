@@ -63,15 +63,17 @@ namespace MedistockServeur
                 string identification = split[5] + ';' + split[6];
                 if(p_identifiant == identification)
                 {
-                    message = element + '*' + listeMedicament();
+                    message = element + '*' + listeMedicament() + "/" + listeArmoire(); 
                     MyConnection.Close(); // Fermeture de la connexion
                     return message;
                 }
             }
+            MyConnection.Close();
             message = "faux";
             return message;
         }
-        public string listeMedicament()
+
+        private string listeMedicament()
         {
             string liste = null;
 
@@ -128,6 +130,28 @@ namespace MedistockServeur
             }
             liste = liste.Substring(0, liste.Length - 1);
             return liste;
+        }
+
+        private string listeArmoire()
+        {
+            int indexY = 0;
+            MySqlCommand request = new MySqlCommand("Select armoire.Abscisse,armoire.Ordonne,salle.Nom from armoire, salle WHERE armoire.IdSalle = salle.IdSalle ORDER BY armoire.IdSalle", MyConnection);
+            MySqlDataReader reader = request.ExecuteReader();
+            string enregistrement = null;
+            while (reader.Read()) // Pour chaque enregistrement de l'objet ciblé 
+            {
+                for (indexY = 0; indexY < reader.FieldCount; indexY++) // Pour chaque attribut de l'enregistrement ciblé
+                {
+                    enregistrement = enregistrement + reader[indexY].ToString() + ',';
+                    //profil.Add(reader[indexY].ToString() + ","); // Stockage dans la liste "dataList" du tout le contenu de la base de données en String
+                }
+                enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
+                enregistrement = enregistrement + "/";
+                indexY = 0; // Remise à zéro de l'index 
+            }
+            enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
+            reader.Close(); // Fermeture du DataReader 
+            return enregistrement;
         }
         public string getmessage()
         {
