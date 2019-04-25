@@ -75,20 +75,28 @@ namespace MedistockServeur
                             //writer.WriteLine(reponse);
                             while (true)
                             {
-                                if(etape == 1)
-                                {   
-                                    Console.WriteLine(demande);
-                                    reponse = dao.connection(demande);
-                                    Console.WriteLine(reponse);
-                                    writer.WriteLine(reponse);
-                                    etape = 0;
-                                }
-                                else if(etape == 2)
+                                switch(etape)
                                 {
-                                    Console.WriteLine(demande);
-                                    dao.miseAJour(demande);
-                                    writer.WriteLine("ok");
-                                    etape = 0;
+                                    case 1:
+                                        reponse = dao.connection(demande);
+                                        writer.WriteLine(reponse);
+                                        Console.WriteLine(reponse);
+                                        etape = 0;
+                                        break;
+
+                                    case 2:
+                                        dao.ajoutAction(demande);
+                                        etape = 0;
+                                        break;
+
+                                    case 3:
+                                        Console.WriteLine(demande);
+                                        dao.ajoutMedicament(demande);
+                                        etape = 0;
+                                        break;
+
+                                    case 4:
+                                        break;
                                 }
                             }
                         }
