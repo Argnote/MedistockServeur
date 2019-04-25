@@ -27,7 +27,7 @@ namespace MedistockServeur
             {
                 MyConnection = new MySqlConnection(connexion_string);
                 MyConnection.Open();
-            }            
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -54,16 +54,16 @@ namespace MedistockServeur
                 indexY = 0; // Remise à zéro de l'index 
             }
             reader.Close(); // Fermeture du DataReader
-            
+
             //profil.Add("Croix;Pierre;medecin;2;test;azerty");
             //profil.Add("Dubois;Victor;magasinier;5;admin;azerty");
             foreach (string element in profil)
             {
                 string[] split = element.Split(';');
                 string identification = split[5] + ';' + split[6];
-                if(p_identifiant == identification)
+                if (p_identifiant == identification)
                 {
-                    message = element + '*' + listeMedicament() + "/" + listeArmoire(); 
+                    message = element + '*' + listeMedicament() + "/" + listeArmoire();
                     MyConnection.Close(); // Fermeture de la connexion
                     return message;
                 }
@@ -114,7 +114,7 @@ namespace MedistockServeur
                     enregistrement = enregistrement + ",";
                     indexY = 0;
                 }
-                
+
                 readerAction.Close();
                 enregistrement = medicament + enregistrement;
                 enregistrement = enregistrement.Substring(0, enregistrement.Length - 1);
@@ -124,7 +124,7 @@ namespace MedistockServeur
                 //profil[IdMedicament - 1] = profil[IdMedicament - 1].Substring(0, list.Length - 1);
             }
 
-            foreach(string medicament in medicamentAction)
+            foreach (string medicament in medicamentAction)
             {
                 liste = liste + medicament + '*';
             }
@@ -135,7 +135,7 @@ namespace MedistockServeur
         private string listeArmoire()
         {
             int indexY = 0;
-            MySqlCommand request = new MySqlCommand("Select armoire.Abscisse,armoire.Ordonne,salle.Nom from armoire, salle WHERE armoire.IdSalle = salle.IdSalle ORDER BY armoire.IdSalle", MyConnection);
+            MySqlCommand request = new MySqlCommand("Select armoire.IdArmoire,armoire.Abscisse,armoire.Ordonne,salle.Nom from armoire, salle WHERE armoire.IdSalle = salle.IdSalle ORDER BY armoire.IdSalle", MyConnection);
             MySqlDataReader reader = request.ExecuteReader();
             string enregistrement = null;
             while (reader.Read()) // Pour chaque enregistrement de l'objet ciblé 
@@ -157,7 +157,7 @@ namespace MedistockServeur
         {
             return message;
         }
-        public void miseAJour(string demande)
+        public void ajoutAction(string demande)
         {
             try
             {
@@ -168,14 +168,32 @@ namespace MedistockServeur
                 MySqlCommand request = new MySqlCommand("Select*FROM effectueraction", MyConnection);
                 MySqlDataReader reader = request.ExecuteReader();
                 int id = 0;
-                while(reader.Read())
+                while (reader.Read())
                 {
                     id++;
                 }
                 id++;
                 reader.Close();
-                string sql = "Insert into effectueraction values ("+ id + "," + splitmessage[0] + "," + splitmessage[1] + ",'"+ splitmessage[2] + "','" + splitmessage[3] + "'," + splitmessage[4] + ")";
+                string sql = "Insert into effectueraction values (" + id + "," + splitmessage[0] + "," + splitmessage[1] + ",'" + splitmessage[2] + "','" + splitmessage[3] + "'," + splitmessage[4] + ")";
                 cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                MyConnection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+        public void ajoutMedicament(string demande)
+        {
+            try
+            {
+                string[] splitmessage = demande.Split(',');
+                MyConnection = new MySqlConnection(connexion_string);
+                MyConnection.Open();
+                MySqlCommand cmd = MyConnection.CreateCommand();
+                string sql = "Insert into medicament values (" + splitmessage[0] + ",'" + splitmessage[1] + "','" + splitmessage[2] + "','" + splitmessage[3] + "'," + splitmessage[4] + "'," + splitmessage[5] + "," + splitmessage[6] + "," + splitmessage[7] + ")"; cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
                 MyConnection.Close();
             }

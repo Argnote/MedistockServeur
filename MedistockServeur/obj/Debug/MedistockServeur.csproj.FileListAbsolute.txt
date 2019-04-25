@@ -36,3 +36,13 @@ C:\Users\ewan2\Documents\MedistockServeur\MedistockServeur\obj\Debug\MedistockSe
 C:\Users\ewan2\Documents\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CopyComplete
 C:\Users\ewan2\Documents\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
 C:\Users\ewan2\Documents\MedistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe.config
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\MedistockServeur.exe
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\MedistockServeur.pdb
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\Google.Protobuf.dll
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\MySql.Data.xml
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csprojAssemblyReference.cache
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CoreCompileInputs.cache
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CopyComplete
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
