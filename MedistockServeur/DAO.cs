@@ -80,7 +80,7 @@ namespace MedistockServeur
             int indexY = 0;
             medicament = new List<string>();
             medicamentAction = new List<string>();
-            MySqlCommand request = new MySqlCommand("Select medicament.IdMedicament,medicament.Nom,medicament.Type,medicament.TypeMesure,medicament.PrincipeActif,medicament.Stock,medicament.SeuilCritique,armoire.Abscisse,armoire.Ordonne,salle.nom from medicament,armoire,salle WHERE medicament.IdArmoire = armoire.IdArmoire AND armoire.IdSalle = salle.IdSalle", MyConnection);
+            MySqlCommand request = new MySqlCommand("Select medicament.IdMedicament,medicament.Nom,medicament.Type,medicament.TypeMesure,medicament.PrincipeActif,medicament.Stock,medicament.SeuilCritique,armoire.Abscisse,armoire.Ordonne,salle.nom from medicament,armoire,salle WHERE medicament.IdArmoire = armoire.IdArmoire AND armoire.IdSalle = salle.IdSalle ORDER BY medicament.IdMedicament", MyConnection);
             MySqlDataReader reader = request.ExecuteReader();
             string enregistrement = null;
             int IdMedicament = 0;
@@ -193,7 +193,36 @@ namespace MedistockServeur
                 MyConnection = new MySqlConnection(connexion_string);
                 MyConnection.Open();
                 MySqlCommand cmd = MyConnection.CreateCommand();
-                string sql = "Insert into medicament values (" + splitmessage[0] + ",'" + splitmessage[1] + "','" + splitmessage[2] + "','" + splitmessage[3] + "'," + splitmessage[4] + "'," + splitmessage[5] + "," + splitmessage[6] + "," + splitmessage[7] + ")"; cmd.CommandText = sql;
+                MySqlCommand request = new MySqlCommand("Select*FROM medicament", MyConnection);
+                MySqlDataReader reader = request.ExecuteReader();
+                int id = 0;
+                while (reader.Read())
+                {
+                    id++;
+                }
+                id++;
+                reader.Close();
+                string sql = "Insert into medicament values (" + id + ",'" + splitmessage[1] + "','" + splitmessage[2] + "','" + splitmessage[3] + "','" + splitmessage[4] + "'," + splitmessage[5] + "," + splitmessage[6] + "," + splitmessage[7] + ")";
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                MyConnection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+        public void modificationMedicament(string demande)
+        {
+            try
+            {
+                string[] splitmessage = demande.Split(',');
+                MyConnection = new MySqlConnection(connexion_string);
+                MyConnection.Open();
+                MySqlCommand cmd = MyConnection.CreateCommand();
+                string sql = "UPDATE medicament SET Nom = '" + splitmessage[1] + "', Type = '" + splitmessage[2] + "', TypeMesure = '" + splitmessage[3] + "',PrincipeActif = '" + splitmessage[4] + "', SeuilCritique = " + splitmessage[5] + ",IdArmoire = " + splitmessage[6] + " WHERE IdMedicament = " + splitmessage[0];
+                cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
                 MyConnection.Close();
             }
