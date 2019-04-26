@@ -86,16 +86,21 @@ namespace MedistockServeur
 
                                     case 2:
                                         dao.ajoutAction(demande);
+                                        writer.WriteLine("effectuer");
                                         etape = 0;
                                         break;
 
                                     case 3:
                                         Console.WriteLine(demande);
                                         dao.ajoutMedicament(demande);
+                                        writer.WriteLine("effectuer");
                                         etape = 0;
                                         break;
 
                                     case 4:
+                                        dao.modificationMedicament(demande);
+                                        writer.WriteLine("effectuer");
+                                        etape = 0;
                                         break;
                                 }
                             }
