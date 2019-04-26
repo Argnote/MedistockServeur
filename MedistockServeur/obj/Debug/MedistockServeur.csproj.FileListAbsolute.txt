@@ -46,3 +46,5 @@ C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\Medi
 C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.csproj.CopyComplete
 C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.exe
 C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\obj\Debug\MedistockServeur.pdb
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\MySql.Data.dll
+C:\Users\ewan2\Documents\projet\medistockServeur\MedistockServeur\bin\Debug\BouncyCastle.Crypto.dll

@@ -19,7 +19,7 @@ namespace MedistockServeur
         private List<string> medicament;
         private List<string> medicamentAction;
         private MySqlConnection MyConnection;
-        private string connexion_string = "SERVER=127.0.0.1; DATABASE=medistock; UID=root; PASSWORD=";       // Création d'un string permettant d'ouvrir la dB avec des parametres prédéfinis 
+        private string connexion_string = "SERVER=127.0.0.1; DATABASE=medistock; UID=root; PASSWORD=pass";       // Création d'un string permettant d'ouvrir la dB avec des parametres prédéfinis 
 
         public DAO()
         {
